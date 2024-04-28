@@ -407,6 +407,7 @@ function docker_cli_prepare_launch() {
 		"--env" "GITHUB_SHA=${GITHUB_SHA}"
 		"--env" "GITHUB_WORKFLOW=${GITHUB_WORKFLOW}"
 		"--env" "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
+		"-v" "/home/eazrael/tmp/x4/armbian_bash_history:/root/.bash_history:rw"
 	)
 
 	# This env var is used super early (in entrypoint.sh), so set it as an env to current value.

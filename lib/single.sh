@@ -8,16 +8,16 @@
 # https://github.com/armbian/build/
 
 # The Armbian functions require Bash 5.x.
-if [[ "${BASH_VERSINFO:-0}" -lt 5 ]]; then
-	echo "Armbian build scripts require Bash 5.x. Go get it..." >&2
-	if [[ "${OSTYPE}" == "darwin"* ]]; then
-		echo "Armbian build scripts require brew to be installed and working on macOS. (old Bash version)" >&2
-		echo "Please install brew, *restart your terminal*." >&2
-		echo "Then run 'brew install bash coreutils git', *restart your terminal* and then try again." >&2
-		exit 51
-	fi
-	exit 50
-fi
+#if [[ "${BASH_VERSINFO:-0}" -lt 5 ]]; then
+#	echo "Armbian build scripts require Bash 5.x. Go get it..." >&2
+#	if [[ "${OSTYPE}" == "darwin"* ]]; then
+#		echo "Armbian build scripts require brew to be installed and working on macOS. (old Bash version)" >&2
+#		echo "Please install brew, *restart your terminal*." >&2
+#		echo "Then run 'brew install bash coreutils git', *restart your terminal* and then try again." >&2
+#		exit 51
+#	fi
+#	exit 50
+#fi
 
 # If under Darwin, we require brew to be installed and working. Check.
 if [[ "${OSTYPE}" == "darwin"* ]]; then
