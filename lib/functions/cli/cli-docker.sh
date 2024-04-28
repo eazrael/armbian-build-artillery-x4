@@ -70,6 +70,7 @@ function cli_docker_run() {
 		display_alert "Adding Docker env" "${env}" "debug"
 		DOCKER_ARGS+=("--env" "${env}")
 	done
+	DOCKER_ARGS+=("-v" "/etc/localtime:/etc/localtime:ro")
 
 	case "${DOCKER_SUBCMD}" in
 		shell)
