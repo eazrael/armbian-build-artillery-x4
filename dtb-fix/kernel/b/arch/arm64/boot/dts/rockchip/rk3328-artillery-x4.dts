@@ -93,6 +93,8 @@
 	vcc_sdio: sdmmcio-regulator {
 		compatible = "regulator-gpio";
 		gpios = <&grf_gpio 0 GPIO_ACTIVE_HIGH>;
+		pinctrl-0 = <&sdio_vcc_pin>;
+		pinctrl-names = "default";
 		states = <1800000 0x1>,
 				 <3300000 0x0>;
 		regulator-name = "vcc_sdio";
@@ -106,13 +108,25 @@
 	vcc_host1_5v: vcc_otg_5v: vcc-host1-5v-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <&gpio1 RK_PD2 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&usb20_host_drv>;
 		regulator-name = "vcc_host1_5v";
 		regulator-always-on;
 		vin-supply = <&vcc_sys>;
 	};
+
+	vcc_host2_5v: vcc-host2-5v-regulator {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio0 0 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb30_host_drv>;
+		regulator-name = "vcc_host2_5v";
+		regulator-always-on;
+		vin-supply = <&vcc_sys>;
+	};
+
 
 	vcc_sys: vcc-sys {
 		compatible = "regulator-fixed";
@@ -123,6 +137,23 @@
 		regulator-max-microvolt = <5000000>;
 		vin-supply = <&dc_12v>;
 	};
+
+	wireless-wlan {
+		compatible = "wlan-platdata";
+		rockchip,grf = <&grf>;
+		sdio_vref = <3300>;
+		status = "okay";
+		WIFI,host_wake_irq = <&gpio1 19 IRQ_TYPE_NONE>;
+		wifi_chip_type = "rtl8723bs";
+	};
+
+	sdio_pwrseq0 {
+		compatible = "mmc-pwrseq-simple";
+		pinctrl-names = "default";
+		pinctrl-0 = <&wifi_enable_h>;
+		reset-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+	};
+
 
 	vcc_phy: vcc-phy-regulator {
 		compatible = "regulator-fixed";
@@ -149,12 +180,12 @@
 		};
 	};
 
-	ir-receiver {
-		compatible = "gpio-ir-receiver";
-		gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
-		pinctrl-0 = <&ir_int>;
-		pinctrl-names = "default";
-	};
+	// ir-receiver {
+		//     compatible = "gpio-ir-receiver";
+		//     gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
+		//     pinctrl-0 = <&ir_int>;
+		//     pinctrl-names = "default";
+	// };
 
 	// Missing USB3PHY-GRF
 	//     usb3phy_grf: syscon@ff460000 {
@@ -432,7 +463,7 @@
 	vccio1-supply = <&vcc_io>;
 	vccio2-supply = <&vcc18_emmc>;
 	vccio3-supply = <&vcc_sdio>;
-	vccio4-supply = <&vcc_18>;
+	vccio4-supply = <&vcc_io>;
 	vccio5-supply = <&vcc_io>;
 	vccio6-supply = <&vcc_io>;
 	pmuio-supply = <&vcc_io>;
@@ -440,21 +471,65 @@
 
 &pinctrl {
 
-	ir {
-		ir_int: ir-int {
-			rockchip,pins = <2 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
-	};
+	//TODO: mks compatibility
+	// ir {
+		//     ir_int: ir-int {
+			//         rockchip,pins = <2 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		//     };
+	// };
+	//TODO: mks has rt here
 
 	pmic {
 		pmic_int_l: pmic-int-l {
-			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_up>;
+			//TODO mks compatibility
+			//rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_up>;
+			rockchip,pins = <2 6 RK_FUNC_GPIO &pcfg_pull_up>;
+
 		};
 	};
 
 	usb2 {
 		usb20_host_drv: usb20-host-drv {
-			rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
+			//TODO mks compatibility
+			//rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	//remaining pins defined by mks
+	usb3 {
+		usb30_host_drv: usb30-host-drv {
+			rockchip,pins = <0 0 0  &pcfg_pull_none>;
+		};
+	};
+
+	sd {
+		sdio_vcc_pin: sdio-vcc-pin {
+			rockchip,pins = <2 20 0 &pcfg_pull_up>;
+		};
+	};
+
+	spi0_cs1 {
+		pinctrl_spi0_cs1: pinctrl-spi0-cs1 {
+			rockchip,pins = <3 7 0 &pcfg_pull_up>;
+		};
+	};
+
+	sdio-pwrseq {
+		wifi_enable_h: wifi-enable-h {
+			rockchip,pins = <1 18 0 &pcfg_pull_none>;
+		};
+	};
+
+	wireless-wlan {
+		wifi-wake-host {
+			rockchip,pins = <1 19 0 &pcfg_pull_up>;
+		};
+	};
+
+	spi0_cs0 {
+		pinctrl_spi0_cs0: pinctrl-spi0-cs0  {
+			rockchip,pins = <3 8 0 &pcfg_pull_up>;
 		};
 	};
 };
@@ -515,25 +590,29 @@
 &spi0 {
 	pinctrl-0 = <0x2e 0x2f 0x30>;
 	status = "disable";
+	#gpio-cells = <0x02>;
 	max-freq = <0x2dc6c00>;
-	cs-gpios = <0x31 0x08 0x01 0x31 0x07 0x01>;
+	//cs-gpios = <0x31 0x08 0x01 0x31 0x07 0x01>;
+	cs-gpios = <&gpio3 0x08 GPIO_ACTIVE_LOW>;
+	// TODO: CS1 not working, collission with UART??
+	//cs-gpios = <&gpio3 0x07 GPIO_ACTIVE_LOW>;
 
-	// spi_for_cs0@0 {
-		//     reg = <0x00>;
-		//     compatible = "rockchip,spi_test_bus1_cs2";
-		//     pinctrl-names = "default";
-		//     pinctrl-0 = <0x32>;
-		//     spi-max-frequency = <0x4c4b40>;
-		//     status = "false";
-	// };
+	spi_for_cs0@0 {
+		reg = <0x00>;
+		compatible = "rockchip,spi_test_bus1_cs2";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_spi0_cs0>;
+		spi-max-frequency = <0x4c4b40>;
+		status = "okay";
+	};
 
 	// spi_for_cs1@1 {
 		//     reg = <0x01>;
 		//     compatible = "rockchip,spi_test_bus1_cs2";
 		//     pinctrl-names = "default";
-		//     pinctrl-0 = <0x33>;
+		//     pinctrl-0 = <&pinctrl_spi0_cs1>;
 		//     spi-max-frequency = <0x4c4b40>;
-		//     status = "false";
+		//     status = "okay";
 	// };
 };
 
@@ -555,10 +634,15 @@
 
 &uart0 {
 	status = "okay";
+	//TODO: override for mks
+	pinctrl-0 = <&uart0_xfer>, <&uart0_cts>;
 };
 
 &uart1 {
 	status = "okay";
+	//TODO override for mks
+	pinctrl-0 = <&uart1_xfer>;
+
 };
 
 &uart2 {
