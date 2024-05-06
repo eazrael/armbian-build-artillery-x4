@@ -147,7 +147,7 @@
 		wifi_chip_type = "rtl8723bs";
 	};
 
-	sdio_pwrseq0 {
+	sdio_pwrseq0: sdio-pwrseq0 {
 		compatible = "mmc-pwrseq-simple";
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_enable_h>;
@@ -479,6 +479,12 @@
 	// };
 	//TODO: mks has rt here
 
+	rtc {
+		rtc-32k {
+			rockchip,pins = <1 28 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
 	pmic {
 		pmic_int_l: pmic-int-l {
 			//TODO mks compatibility
@@ -515,7 +521,7 @@
 		};
 	};
 
-	sdio-pwrseq {
+	sdio_pwrseq: sdio-pwrseq {
 		wifi_enable_h: wifi-enable-h {
 			rockchip,pins = <1 18 0 &pcfg_pull_none>;
 		};
@@ -535,9 +541,10 @@
 };
 
 &sdio {
-	compatible = "rockchip,rk3328-dw-mshc", "rockchip,rk3288-dw-mshc";
-	reg = <0x0 0xff510000 0x0 0x4000>;
-	pinctrl-0 = <&sdmmc1_cmd>;
+	// compatible = "rockchip,rk3328-dw-mshc", "rockchip,rk3288-dw-mshc";
+	// reg = <0x0 0xff510000 0x0 0x4000>;
+	//pinctrl-0 = <&sdmmc1_cmd>;
+	pinctrl-0 = <&sdmmc1_bus4>, <&sdmmc1_clk>,  <&sdmmc1_cmd>;
 	pinctrl-names = "default";
 	interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
 	clocks = <&cru HCLK_SDIO>,
@@ -554,7 +561,7 @@
 	cap-sdio-irq;
 	non-removable;
 	bus-width = <0x04>;
-	mmc-pwrseq = <0x200>;
+	mmc-pwrseq = <&sdio_pwrseq0>;
 };
 
 &sdmmc {
@@ -588,32 +595,29 @@
 };
 
 &spi0 {
-	pinctrl-0 = <0x2e 0x2f 0x30>;
-	status = "disable";
+	pinctrl-0 = <&spi0m2_clk>, <&spi0m2_tx>, <&spi0m2_rx>;
+	status = "okay";
 	#gpio-cells = <0x02>;
 	max-freq = <0x2dc6c00>;
-	//cs-gpios = <0x31 0x08 0x01 0x31 0x07 0x01>;
-	cs-gpios = <&gpio3 0x08 GPIO_ACTIVE_LOW>;
-	// TODO: CS1 not working, collission with UART??
-	//cs-gpios = <&gpio3 0x07 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpio3 0x08 GPIO_ACTIVE_LOW>, <&gpio3 0x07 GPIO_ACTIVE_LOW>;
 
 	spi_for_cs0@0 {
 		reg = <0x00>;
-		compatible = "rockchip,spi_test_bus1_cs2";
+		compatible = "dh,dhcom-board";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_spi0_cs0>;
 		spi-max-frequency = <0x4c4b40>;
 		status = "okay";
 	};
 
-	// spi_for_cs1@1 {
-		//     reg = <0x01>;
-		//     compatible = "rockchip,spi_test_bus1_cs2";
-		//     pinctrl-names = "default";
-		//     pinctrl-0 = <&pinctrl_spi0_cs1>;
-		//     spi-max-frequency = <0x4c4b40>;
-		//     status = "okay";
-	// };
+	spi_for_cs1@1 {
+		reg = <0x01>;
+		compatible = "dh,dhcom-board";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_spi0_cs1>;
+		spi-max-frequency = <0x4c4b40>;
+		status = "okay";
+	};
 };
 
 &tsadc {
