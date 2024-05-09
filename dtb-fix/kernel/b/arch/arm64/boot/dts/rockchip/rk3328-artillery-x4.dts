@@ -179,58 +179,6 @@
 			default-state = "off";
 		};
 	};
-
-	// ir-receiver {
-		//     compatible = "gpio-ir-receiver";
-		//     gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
-		//     pinctrl-0 = <&ir_int>;
-		//     pinctrl-names = "default";
-	// };
-
-	// Missing USB3PHY-GRF
-	//     usb3phy_grf: syscon@ff460000 {
-		//         compatible = "rockchip,usb3phy-grf\0syscon";
-		//         reg = <0x00 0xff460000 0x00 0x1000>;
-	//     };
-
-	//     usb3-phy@ff470000 {
-		//         compatible = "rockchip,rk3328-u3phy";
-		//         reg = <0x00 0xff470000 0x00 0x00>;
-		//         rockchip,u3phygrf = <&usb3phy_grf>;
-		//         rockchip,grf = <&grf>;
-		//         interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>;
-		//         interrupt-names = "linestate";
-		//         clocks = <&cru PCLK_USB3PHY_OTG 0x02 PCLK_USB3PHY_PIPE>;
-		//         clock-names = "u3phy-otg\0u3phy-pipe";
-		//         resets = <&cru SRST_USB3PHY_U2>,
-							//                  <&cru SRST_USB3PHY_U3>,
-							//                  <&cru SRST_USB3PHY_PIPE>,
-							//                  <&cru SRST_USB3OTG_UTMI>,
-							//                  <&cru SRST_USB3PHY_OTG_P>,
-							//                  <&cru SRST_USB3PHY_PIPE_P>;
-		//         reset-names = "u3phy-u2-por\0u3phy-u3-por\0u3phy-pipe-mac\0u3phy-utmi-mac\0u3phy-utmi-apb\0u3phy-pipe-apb";
-		//         #address-cells = <0x02>;
-		//         #size-cells = <0x02>;
-		//         ranges;
-		//         status = "okay";
-
-		//         utmi@ff470000 {
-			//             reg = <0x00 0xff470000 0x00 0x8000>;
-			//             #phy-cells = <0x00>;
-			//             status = "okay";
-		//         };
-
-		//         pipe@ff478000 {
-			//             reg = <0x00 0xff478000 0x00 0x8000>;
-			//             #phy-cells = <0x00>;
-			//             status = "okay";
-		//         };
-	//     };
-
-
-
-
-
 };
 
 &analog_sound {
