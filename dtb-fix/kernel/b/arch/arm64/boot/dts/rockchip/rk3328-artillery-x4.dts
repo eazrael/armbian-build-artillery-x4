@@ -250,7 +250,7 @@
 };
 
 &gmac2phy {
-	status = "okay";
+	status = "disable";
 	phy-supply = <&vcc_phy>;
 	assigned-clocks = <&cru SCLK_MAC2PHY>;
 	assigned-clock-rate = <0x2faf080>;
@@ -531,15 +531,15 @@
 
 &spdif {
 	pinctrl-0 = <&spdifm0_tx>;
-	status = "okay";
+	status = "disable";
 };
 
 &spdif_out {
-	status = "okay";
+	status = "disable";
 };
 
 &spdif_sound {
-	status = "okay";
+	status = "disable";
 };
 
 &spi0 {
