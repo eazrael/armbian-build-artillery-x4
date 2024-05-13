@@ -40,17 +40,17 @@
 		opp-786000000 {
 			opp-hz = /bits/ 64 <786000000>;
 			opp-microvolt = <1075000 1075000 12000000>;
-			status = "disable";
+			status = "disabled";
 		};
 		opp-798000000 {
 			opp-hz = /bits/ 64 <798000000>;
 			opp-microvolt = <1075000 1075000 12000000>;
-			status = "disable";
+			status = "disabled";
 		};
 		opp-840000000 {
 			opp-hz = /bits/ 64 <840000000>;
 			opp-microvolt = <1075000 1075000 12000000>;
-			status = "disable";
+			status = "disabled";
 		};
 		opp-924000000 {
 			opp-hz = /bits/ 64 <924000000>;
@@ -92,11 +92,11 @@
 
 	vcc_sdio: sdmmcio-regulator {
 		compatible = "regulator-gpio";
-		gpios = <&grf_gpio 0 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio2 20 GPIO_ACTIVE_HIGH>;
 		pinctrl-0 = <&sdio_vcc_pin>;
 		pinctrl-names = "default";
-		states = <1800000 0x1>,
-				 <3300000 0x0>;
+		states = <1800000 0x0>,
+				 <3300000 0x1>;
 		regulator-name = "vcc_sdio";
 		regulator-type = "voltage";
 		regulator-min-microvolt = <1800000>;
@@ -144,7 +144,7 @@
 		sdio_vref = <3300>;
 		status = "okay";
 		WIFI,host_wake_irq = <&gpio1 19 IRQ_TYPE_NONE>;
-		wifi_chip_type = "rtl8723bs";
+		wifi_chip_type = "ap6212";
 	};
 
 	sdio_pwrseq0: sdio-pwrseq0 {
@@ -182,12 +182,17 @@
 };
 
 &analog_sound {
-	status = "disable";
+	status = "disabled";
 };
 
 &codec {
 	status = "okay";
 };
+
+&crypto {
+	status = "okay";
+};
+
 
 &dfi {
 	status = "okay";
@@ -246,15 +251,34 @@
 	snps,txpbl = <0x4>;
 	tx_delay = <0x24>;
 	rx_delay = <0x18>;
-	status = "disable";
+	status = "disabled";
 };
 
 &gmac2phy {
-	status = "disable";
+	status = "disabled";
 	phy-supply = <&vcc_phy>;
 	assigned-clocks = <&cru SCLK_MAC2PHY>;
 	assigned-clock-rate = <0x2faf080>;
 	assigned-clock-parents = <&cru SCLK_MAC2PHY_SRC>;
+};
+
+&gpio2 {
+	gpio-line-names = "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "",
+	                  "gentry_led_bar";
 };
 
 &gpu {
@@ -263,7 +287,7 @@
 
 &hdmi {
 	//status = "okay";
-	status = "disable";
+	status = "disabled";
 	ports {
 		hdmi_in: port {
 			// reg = <0>;
@@ -279,13 +303,13 @@
 
 &hdmiphy {
 	// status = "okay";
-	status = "disable";
+	status = "disabled";
 
 };
 
 &hdmi_sound {
 	//status = "okay";
-	status = "disable";
+	status = "disabled";
 };
 
 &i2c1 {
@@ -488,10 +512,11 @@
 	};
 };
 
+&rga {
+	status = "disabled";
+};
+
 &sdio {
-	// compatible = "rockchip,rk3328-dw-mshc", "rockchip,rk3288-dw-mshc";
-	// reg = <0x0 0xff510000 0x0 0x4000>;
-	//pinctrl-0 = <&sdmmc1_cmd>;
 	pinctrl-0 = <&sdmmc1_bus4>, <&sdmmc1_clk>,  <&sdmmc1_cmd>;
 	pinctrl-names = "default";
 	interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
@@ -531,15 +556,15 @@
 
 &spdif {
 	pinctrl-0 = <&spdifm0_tx>;
-	status = "disable";
+	status = "disabled";
 };
 
 &spdif_out {
-	status = "disable";
+	status = "disabled";
 };
 
 &spdif_sound {
-	status = "disable";
+	status = "disabled";
 };
 
 &spi0 {
@@ -633,9 +658,9 @@
 };
 
 &vop {
-	status = "okay";
+	status = "disabled";
 };
 
 &vop_mmu {
-	status = "okay";
+	status = "disabled";
 };
