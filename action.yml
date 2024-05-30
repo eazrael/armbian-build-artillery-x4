@@ -144,6 +144,7 @@ runs:
         mkdir -pv build/userpatches
         rsync -av os/userpatches/. build/userpatches/
         [[ -d custom/userpatches ]] && rsync -av custom/userpatches/. build/userpatches/
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $?" 1>&2
 
     - shell: bash
       run: |
