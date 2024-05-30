@@ -166,8 +166,9 @@ runs:
 
         # go to build folder and checkout
         cd build
+        echo git checkout ${{ inputs.armbian_branch }} 1>&2
         git checkout ${{ inputs.armbian_branch }}
-
+        find . 1>&2
         # execute build command
         ./compile.sh "${{ inputs.armbian_target }}" \
         REVISION="${{ env.ARMBIAN_VERSION }}" \
