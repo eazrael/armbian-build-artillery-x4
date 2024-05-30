@@ -121,7 +121,7 @@ runs:
     - name: "Checkout Armbian build framework"
       uses: actions/checkout@v4
       with:
-        repository: armbian/build
+        repository: eazrael/armbian-build-artillery-x4
         fetch-depth: 0
         clean: false
         path: build
