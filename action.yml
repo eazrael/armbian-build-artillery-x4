@@ -25,7 +25,7 @@ inputs:
   armbian_branch:
     description: "Choose framework branch"
     required: false
-    default: "main"
+    default: "github-build"
 
   armbian_kernel_branch:
     description: "Choose kernel branch"
@@ -121,10 +121,11 @@ runs:
     - name: "Checkout Armbian build framework"
       uses: actions/checkout@v4
       with:
-        repository: armbian/build
+        repository: eazrael/armbian-build-artillery-x4
         fetch-depth: 0
         clean: false
         path: build
+        ref: "github-build"
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
@@ -135,19 +136,19 @@ runs:
 
     - shell: bash
       run: |
-
         # read version from upstream Armbian OS
-        cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
-        [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
+        echo "ARMBIAN_VERSION=$(jq '.version' < os/stable.json | sed 's/\"//g')-$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+        [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV        
 
         # copy os userpatches and custom
         mkdir -pv build/userpatches
         rsync -av os/userpatches/. build/userpatches/
         [[ -d custom/userpatches ]] && rsync -av custom/userpatches/. build/userpatches/
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $?" 1>&2
 
     - shell: bash
       run: |
-
+        set -x
         # userspace decode
         if [[ "${{ inputs.armbian_ui }}" == minimal ]]; then
           BUILD_DESKTOP="no"
@@ -165,8 +166,9 @@ runs:
 
         # go to build folder and checkout
         cd build
+        echo git checkout ${{ inputs.armbian_branch }} 1>&2
         git checkout ${{ inputs.armbian_branch }}
-
+        find . 1>&2
         # execute build command
         ./compile.sh "${{ inputs.armbian_target }}" \
         REVISION="${{ env.ARMBIAN_VERSION }}" \
