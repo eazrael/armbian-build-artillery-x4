@@ -125,6 +125,7 @@ runs:
         fetch-depth: 0
         clean: false
         path: build
+        ref: "github-build"
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
@@ -135,7 +136,6 @@ runs:
 
     - shell: bash
       run: |
-        echo "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY 1" 1>&2
         # read version from upstream Armbian OS
         cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
         [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
@@ -144,12 +144,10 @@ runs:
         mkdir -pv build/userpatches
         rsync -av os/userpatches/. build/userpatches/
         [[ -d custom/userpatches ]] && rsync -av custom/userpatches/. build/userpatches/
-        echo "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY 2" 1>&2
 
     - shell: bash
       run: |
         set -x
-        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 1>&2
         # userspace decode
         if [[ "${{ inputs.armbian_ui }}" == minimal ]]; then
           BUILD_DESKTOP="no"
