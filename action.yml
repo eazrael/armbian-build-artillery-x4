@@ -148,6 +148,7 @@ runs:
     - shell: bash
       run: |
         set -x
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 1>&2
         # userspace decode
         if [[ "${{ inputs.armbian_ui }}" == minimal ]]; then
           BUILD_DESKTOP="no"
