@@ -137,8 +137,8 @@ runs:
     - shell: bash
       run: |
         # read version from upstream Armbian OS
-        cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
-        [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
+        echo "ARMBIAN_VERSION=$(jq '.version' < os/stable.json | sed 's/\"//g')-$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+        [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV        
 
         # copy os userpatches and custom
         mkdir -pv build/userpatches
