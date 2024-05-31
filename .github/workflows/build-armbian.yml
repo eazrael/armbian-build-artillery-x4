@@ -10,5 +10,5 @@ jobs:
           armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release:   "bookworm"                        # userspace
           armbian_target:    "build"                        # build=image, kernel=kernel
-          armbian_board:     "artilleryx4"                   # build target
+          armbian_board:     "artilleryx4-emmc"                   # build target
   
