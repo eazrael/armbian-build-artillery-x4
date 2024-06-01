@@ -25,7 +25,7 @@ inputs:
   armbian_branch:
     description: "Choose framework branch"
     required: false
-    default: "github-build"
+    default: "artilleryx4"
 
   armbian_kernel_branch:
     description: "Choose kernel branch"
@@ -125,7 +125,7 @@ runs:
         fetch-depth: 0
         clean: false
         path: build
-        ref: "github-build"
+        ref: "artilleryx4"
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
@@ -144,11 +144,9 @@ runs:
         mkdir -pv build/userpatches
         rsync -av os/userpatches/. build/userpatches/
         [[ -d custom/userpatches ]] && rsync -av custom/userpatches/. build/userpatches/
-        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $?" 1>&2
 
     - shell: bash
       run: |
-        set -x
         # userspace decode
         if [[ "${{ inputs.armbian_ui }}" == minimal ]]; then
           BUILD_DESKTOP="no"
@@ -166,9 +164,7 @@ runs:
 
         # go to build folder and checkout
         cd build
-        echo git checkout ${{ inputs.armbian_branch }} 1>&2
         git checkout ${{ inputs.armbian_branch }}
-        find . 1>&2
         # execute build command
         ./compile.sh "${{ inputs.armbian_target }}" \
         REVISION="${{ env.ARMBIAN_VERSION }}" \
