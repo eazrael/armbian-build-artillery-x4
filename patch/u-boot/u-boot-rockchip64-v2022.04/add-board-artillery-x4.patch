@@ -19,7 +19,7 @@ diff -Nurp a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
  	rk3368-lion-haikou.dtb \
 diff -Nurp a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artillery-x4.dts
 --- a/arch/arm/dts/rk3328-artillery-x4.dts	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/arm/dts/rk3328-artillery-x4.dts	2024-06-05 00:55:18.425698761 +0200
++++ b/arch/arm/dts/rk3328-artillery-x4.dts	2024-06-05 01:42:49.259922424 +0200
 @@ -0,0 +1,436 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
@@ -457,10 +457,9 @@ diff -Nurp a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artiller
 + &vop_mmu {
 +	 status = "okay";
 + };
-\ Kein Zeilenumbruch am Dateiende.
 diff -Nurp a/configs/rk3328-artillery-x4_defconfig b/configs/rk3328-artillery-x4_defconfig
 --- a/configs/rk3328-artillery-x4_defconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/configs/rk3328-artillery-x4_defconfig	2024-06-05 01:10:16.172349124 +0200
++++ b/configs/rk3328-artillery-x4_defconfig	2024-06-05 01:32:58.860770895 +0200
 @@ -0,0 +1,108 @@
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
