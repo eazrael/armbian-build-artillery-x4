@@ -1,7 +1,7 @@
-diff -Naurp a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
---- a/arch/arm/dts/Makefile	2024-06-05 02:31:21.772829817 +0200
-+++ b/arch/arm/dts/Makefile	2024-06-05 02:33:55.264264043 +0200
-@@ -124,6 +124,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3308) += \
+diff -Nurb a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+--- a/arch/arm/dts/Makefile	2024-06-05 19:51:36.901816470 +0200
++++ b/arch/arm/dts/Makefile	2024-06-05 19:51:36.901816470 +0200
+@@ -124,6 +124,7 @@
  	rk3308-rock-pi-s.dtb
  
  dtb-$(CONFIG_ROCKCHIP_RK3328) += \
@@ -9,19 +9,10 @@ diff -Naurp a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
  	rk3328-evb.dtb \
  	rk3328-nanopi-r2s.dtb \
  	rk3328-orangepi-r1-plus.dtb \
-@@ -131,7 +132,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3328) += \
- 	rk3328-roc-cc.dtb \
- 	rk3328-rock64.dtb \
- 	rk3328-rock-pi-e.dtb
--
-+	
- dtb-$(CONFIG_ROCKCHIP_RK3368) += \
- 	rk3368-lion-haikou.dtb \
- 	rk3368-sheep.dtb \
-diff -Naurp a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artillery-x4.dts
+diff -Nurb a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artillery-x4.dts
 --- a/arch/arm/dts/rk3328-artillery-x4.dts	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/arm/dts/rk3328-artillery-x4.dts	2024-06-05 01:42:49.259922424 +0200
-@@ -0,0 +1,436 @@
++++ b/arch/arm/dts/rk3328-artillery-x4.dts	2024-06-05 19:55:36.734754483 +0200
+@@ -0,0 +1,445 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 T-Chip Intelligent Technology Co., Ltd
@@ -179,6 +170,15 @@ diff -Naurp a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artille
 +		 pinctrl-names = "default";
 +		 pinctrl-0 = <&wifi_enable_h>;
 +		 reset-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
++
++		 compatible = "mmc-pwrseq-simple";
++		 pinctrl-names = "default";
++		 pinctrl-0 = <&wifi_enable_h>;
++		 reset-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
++
++		 wifi_enable_h: wifi-enable-h {
++			rockchip,pins = <&gpio1 18 0 &pcfg_pull_none>;
++		};
 +	 };
 + 
 + };
@@ -458,9 +458,10 @@ diff -Naurp a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artille
 + &vop_mmu {
 +	 status = "okay";
 + };
-diff -Naurp a/configs/rk3328-artillery-x4_defconfig b/configs/rk3328-artillery-x4_defconfig
+\ No newline at end of file
+diff -Nurb a/configs/rk3328-artillery-x4_defconfig b/configs/rk3328-artillery-x4_defconfig
 --- a/configs/rk3328-artillery-x4_defconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/configs/rk3328-artillery-x4_defconfig	2024-06-05 01:32:58.860770895 +0200
++++ b/configs/rk3328-artillery-x4_defconfig	2024-06-05 19:51:36.901816470 +0200
 @@ -0,0 +1,108 @@
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
