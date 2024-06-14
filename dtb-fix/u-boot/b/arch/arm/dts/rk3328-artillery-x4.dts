@@ -156,16 +156,10 @@
 		 pinctrl-0 = <&wifi_enable_h>;
 		 reset-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
 
-		 compatible = "mmc-pwrseq-simple";
-		 pinctrl-names = "default";
-		 pinctrl-0 = <&wifi_enable_h>;
-		 reset-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
-
 		 wifi_enable_h: wifi-enable-h {
-			rockchip,pins = <&gpio1 18 0 &pcfg_pull_none>;
+			rockchip,pins = <1 18 0 &pcfg_pull_none>;
 		};
-	 };
- 
+	 }; 
  };
  
  &analog_sound {
@@ -435,11 +429,11 @@
  &usb_host0_ohci {
 	 status = "okay";
  };
- 
+
  &vop {
 	 status = "okay";
  };
- 
+
  &vop_mmu {
 	 status = "okay";
- };
+ }; 
