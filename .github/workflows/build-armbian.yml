@@ -5,7 +5,8 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-      - with:
+      - uses: ./../../action.yml
+        with:
           armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release:   "bookworm"                        # userspace
           armbian_target:    "build"                        # build=image, kernel=kernel
