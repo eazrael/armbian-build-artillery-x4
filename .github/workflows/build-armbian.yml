@@ -5,7 +5,13 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-#      - name: Check out code
-#        uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Run Armbian workflow
         uses: ./
+        with: 
+          armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
+          armbian_release:   "bookworm"                        # userspace
+          armbian_target:    "build"                        # build=image, kernel=kernel
+          armbian_board:     "artilleryx4"                   # build target
+
