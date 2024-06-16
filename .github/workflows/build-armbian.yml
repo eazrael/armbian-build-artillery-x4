@@ -8,7 +8,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Run Armbian workflow
-        uses: ./../../action.yml
+        uses: ./armbian-build-artillery-x4/action.yml
         with:
           armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release:   "bookworm"                        # userspace
