@@ -5,7 +5,7 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+#      - name: Check out code
+#        uses: actions/checkout@v2
       - name: Run Armbian workflow
         uses: ./
