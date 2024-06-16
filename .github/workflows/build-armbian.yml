@@ -8,4 +8,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Run Armbian workflow
-        uses: ./action.yml
+        uses: ./
