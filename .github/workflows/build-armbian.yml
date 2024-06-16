@@ -8,5 +8,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Run Armbian workflow
-        uses: ./.github/workflows/action.yml
         run: pwd && find . 
