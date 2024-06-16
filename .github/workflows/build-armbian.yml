@@ -9,9 +9,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Armbian workflow
         uses: ./.github/workflows/action.yml
-        with:
-          armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
-          armbian_release:   "bookworm"                        # userspace
-          armbian_target:    "build"                        # build=image, kernel=kernel
-          armbian_board:     "artilleryx4"                   # build target
-  
+        run: pwd && find . 
