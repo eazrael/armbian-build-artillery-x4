@@ -170,8 +170,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3399) += \
 	rk3399-rock960.dtb \
 	rk3399-rockpro64.dtb \
 	rk3399pro-rock-pi-n10.dtb \
-	rk3399pro-tinker_edge_r.dtb \
-	rk3399-xiaobao-nas.dtb
+	rk3399pro-tinker_edge_r.dtb 
 
 dtb-$(CONFIG_ROCKCHIP_RK3568) += \
 	rk3568-evb.dtb
