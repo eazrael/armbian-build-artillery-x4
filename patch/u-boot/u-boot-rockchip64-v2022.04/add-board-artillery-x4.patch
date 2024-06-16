@@ -10,9 +10,9 @@ diff -Nurb a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
  	rk3328-nanopi-r2s.dtb \
  	rk3328-orangepi-r1-plus.dtb \
 diff -Nurb a/arch/arm/dts/rk3328-artillery-x4.dts b/arch/arm/dts/rk3328-artillery-x4.dts
---- a/arch/arm/dts/rk3328-artillery-x4.dts	1970-01-01 01:00:00.000000000 +0100
+--- a/arch/arm/dts/rk3328-artillery-x4dsfdsffdsfdsdsfdsf.dts	1970-01-01 01:00:00.000000000 +0100
 +++ b/arch/arm/dts/rk3328-artillery-x4.dts	2024-04-28 18:57:59.100309812 +0200
-@@ -0,0 +1,385 @@
+@@ -0,0 +1,38dsfddsdsds5 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 T-Chip Intelligent Technology Co., Ltd
