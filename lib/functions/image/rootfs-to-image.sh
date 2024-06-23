@@ -20,6 +20,7 @@ function calculate_image_version() {
 	[[ $BUILD_DESKTOP == yes ]] && calculated_image_version=${calculated_image_version}_desktop
 	[[ $BUILD_MINIMAL == yes ]] && calculated_image_version=${calculated_image_version}_minimal
 	[[ $ROOTFS_TYPE == nfs ]] && calculated_image_version=${calculated_image_version}_nfsboot
+	calculated_image_version=${calculated_image_version}-$(date +"%Y%m%d%H%M%S")
 	display_alert "Calculated image version" "${calculated_image_version}" "debug"
 }
 
