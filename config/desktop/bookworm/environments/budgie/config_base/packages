@@ -10,7 +10,6 @@ brltty
 brltty-x11
 budgie-app-launcher-applet
 budgie-applications-menu-applet
-budgie-appmenu-applet
 budgie-brightness-controller-applet
 budgie-clockworks-applet
 budgie-countdown-applet
@@ -31,7 +30,6 @@ budgie-quicknote-applet
 budgie-recentlyused-applet
 budgie-rotation-lock-applet
 budgie-showtime-applet
-budgie-sntray-plugin
 budgie-takeabreak-applet
 budgie-trash-applet
 budgie-visualspace-applet
@@ -88,7 +86,6 @@ libnotify-bin
 libplank1
 libplank-common
 libproxy1-plugin-gsettings
-libproxy1-plugin-networkmanager
 libwmf0.2-7-gtk
 libxapp1
 libxcursor1
@@ -101,9 +98,6 @@ nemo-data
 nemo-fileroller
 nemo-font-manager
 nemo-gtkhash
-network-manager-openvpn
-network-manager-ssh
-network-manager-vpnc
 numix-gtk-theme
 numix-icon-theme
 numix-icon-theme-circle
@@ -115,9 +109,9 @@ pavucontrol
 pavucontrol-qt
 pavumeter
 plank
-policykit-1
-policykit-1-gnome
-#printer-driver-all
+polkitd
+pkexec
+printer-driver-all
 profile-sync-daemon
 pulseaudio-module-bluetooth
 redshift
