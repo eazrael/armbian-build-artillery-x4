@@ -43,7 +43,6 @@ keyutils
 laptop-detect
 libatk-adaptor
 libfontconfig1
-libfontembed1
 libfontenc1
 libgail-common
 libgl1-mesa-dri
@@ -52,7 +51,6 @@ libgtk2.0-bin
 libnotify-bin
 libpam-gnome-keyring
 libproxy1-plugin-gsettings
-libproxy1-plugin-networkmanager
 libwmf0.2-7-gtk
 libxcursor1
 lightdm
@@ -61,10 +59,6 @@ lxtask
 mesa-utils
 mousepad
 mousetweaks
-network-manager-gnome
-network-manager-openvpn
-network-manager-ssh
-network-manager-vpnc
 numix-gtk-theme
 numix-icon-theme
 numix-icon-theme-circle
@@ -75,7 +69,8 @@ pamix
 pasystray
 pavucontrol
 pavumeter
-policykit-1
+polkitd
+pkexec
 #printer-driver-all
 profile-sync-daemon
 pulseaudio
@@ -84,7 +79,6 @@ redshift
 slick-greeter
 smbclient
 software-properties-gtk
-spice-vdagent
 synaptic
 system-config-printer
 system-config-printer-common
