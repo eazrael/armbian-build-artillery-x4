@@ -1,6 +1,8 @@
 alsa-utils
 bash-completion
 bc
+chrony
+
 console-setup
 cron
 curl
@@ -27,6 +29,8 @@ man-db
 mmc-utils
 ncurses-term
 nano
+netplan.io
+network-manager
 openssh-server
 parted
 psmisc
@@ -38,6 +42,7 @@ toilet
 tzdata
 u-boot-tools
 usbutils
+vlan
 wget
 wireless-tools
 wireguard-tools

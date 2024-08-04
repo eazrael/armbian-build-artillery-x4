@@ -20,10 +20,12 @@ flex
 git
 gpiod
 gnupg2
+haveged
 hdparm
 htop
 html2text
 i2c-tools
+ifenslave
 iotop
 iperf3
 iptables
@@ -50,6 +52,7 @@ screen
 software-properties-common
 smartmontools
 stress
+sudo
 sysfsutils
 sysstat
 unattended-upgrades
