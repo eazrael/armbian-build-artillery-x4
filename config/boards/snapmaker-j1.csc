@@ -49,7 +49,7 @@ ROOTFS_TYPE="ext4"
 SRC_EXTLINUX="yes"
 declare -g EXTLINUX_UINITRD=no
 # TODO hardcoded, derive 
-SRC_CMDLINE="systemd.loglevel=info 8250.nr_uarts=0 fbcon=rotate:3 aus_armbian"
+SRC_CMDLINE="systemd.loglevel=info 8250.nr_uarts=0 fbcon=rotate:3 firmware_class.path=/firmware/image aus_armbian"
 NAME_INITRD=initrd.img-6.12.1-snapmakerj1-msm8909
 BOOTSIZE="120"
 BOOTFS_TYPE="ext2"
@@ -197,6 +197,33 @@ function pre_umount_final_image__snapmakerj1_fstab_commit() {
     # Call sed directly, NOT via run_host_command_logged: that runner re-parses its args
     # through `bash -c "$*"`, which would strip our quoting and choke on the '(' and ';'.
     sed -i -E -e 's/(defaults),,/\1,/' -e 's/commit=[0-9]+/commit=60/' "${fstab}"
+    run_host_command_logged cat "${fstab}"
+
+    return 0
+}
+
+# Mount the Qualcomm vendor partitions the WLAN/modem stack needs. partitioning.sh
+# regenerates fstab from scratch AFTER post_family_tweaks, so (like the commit-interval
+# tweak above) these lines have to be appended here in pre_umount_final_image, once fstab
+# exists in the mounted image (${MOUNT}). Both are read-only and nofail so a missing or
+# unformatted partition never blocks boot on this printer; x-systemd.device-timeout caps
+# how long boot waits for the by-partlabel device to appear.
+#   - modem   -> /firmware : holds the modem/WLAN firmware images. SRC_CMDLINE already
+#                points firmware_class.path at /firmware/image, so this is its mount.
+#   - persist -> /persist  : per-device WCNSS WLAN calibration; the tmpfiles.d drop-in
+#                symlinks the prima NV files here (see etc/tmpfiles.d/wcnss-firmware.conf).
+# auto fstype for modem (it is a vendor fs, not plain ext4); persist is ext4 mounted
+# noload (skip journal replay on a read-only mount).
+# AI generated
+function pre_umount_final_image__snapmakerj1_vendor_mounts() {
+    local fstab="${MOUNT}/etc/fstab"
+    [[ -f "${fstab}" ]] || return 0
+
+    display_alert "${BOARD}" "Appending modem/persist vendor mounts to fstab" "info"
+    cat >> "${fstab}" <<- 'EOF'
+		/dev/disk/by-partlabel/modem    /firmware  auto  ro,nofail,x-systemd.device-timeout=10s          0 0
+		/dev/disk/by-partlabel/persist  /persist   ext4  ro,noload,nofail,x-systemd.device-timeout=10s   0 0
+	EOF
     run_host_command_logged cat "${fstab}"
 
     return 0

@@ -1,0 +1,4 @@
+Notices
+- Reducing zram size. klipper is near real time, do not swap or consume cpu power for that
+- ramlog off (lost messages on development systems)
+- relatime is default, noatime may break somo more things
