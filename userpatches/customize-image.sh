@@ -24,7 +24,9 @@ set -x
 #ls -al /boot
 #mount
 echo "# This is just a dummy file, lk2nd does not support ambianEnv.txt" > /boot/armbianEnv.txt
-cp -rf /tmp/overlay/* /
+# '/.' (not '/*') so this is a no-op instead of a glob error when the overlay is empty,
+# and so any dotfiles are copied too.
+cp -rf /tmp/overlay/. /
 
 Main() {
 	case $RELEASE in

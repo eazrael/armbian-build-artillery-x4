@@ -1,0 +1,15 @@
+# Snapmaker J1: load the WCNSS remoteproc module only after the firmware partitions are
+# mounted (see /etc/modprobe.d/wcnss-defer.conf for why autoload is blocked).
+# RequiresMountsFor avoids hardcoding the generated .mount unit names.
+# Enabled via the pre-created multi-user.target.wants/ symlink shipped in the overlay.
+[Unit]
+Description=Load WCNSS remoteproc after firmware partitions are mounted
+RequiresMountsFor=/firmware /persist
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/sbin/modprobe --ignore-install qcom_wcnss_pil
+
+[Install]
+WantedBy=multi-user.target

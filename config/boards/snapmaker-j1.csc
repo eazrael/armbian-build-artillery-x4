@@ -18,8 +18,12 @@ BOOTCONFIG="none"
 KERNEL_TARGET="snapmakerj1"
 # KERNEL_GIT="shallow"
 
-# Keine Armbian-Patches einmischen
-KERNELPATCHDIR=''
+# Space-separated list of patch dirs. Each is looked up under BOTH patch/kernel/<dir>
+# (core) and userpatches/kernel/<dir> (user):
+#   archive/msm8909-6.12 -> core patchset: copies dt/snapmakerj1.dts and auto-patches the
+#                           qcom DT Makefile, so snapmakerj1.dtb is built & installed.
+#   msm8909-edl          -> userpatches/kernel/msm8909-edl/*.patch (reboot-to-edl).
+KERNELPATCHDIR='archive/msm8909-6.12 msm8909-edl'
 
 
 # Root-FS und Kernel-Image-Format wie gewohnt
@@ -63,7 +67,7 @@ BOOT_FDT_FILE="snapmakerj1.dtb"
 # change "Armbian-unofficial
 # No wireguard in a printer...
 #PACKAGE_LIST_BOARD="xterm file armbian-config iotop-c"
-PACKAGE_LIST_BOARD="xterm file iotop-c i2c-tools spi-tools linux-cpupower openocd moreutils"
+PACKAGE_LIST_BOARD="xterm file iotop-c i2c-tools spi-tools linux-cpupower openocd moreutils zstd"
 PACKAGE_LIST_BOARD_REMOVE="linux-dtb-current-rockchip64 nfs-common vnstat"
 REPOSITORY_INSTALL="armbian-config armbian-firmware"
 INSTALL_HEADERS="yes" # install kernel headers package
@@ -180,6 +184,15 @@ function post_family_tweaks__snapmakerj1_sysctl_klipper() {
     return 0
 }
 
+# NOTE: the WCNSS WiFi firmware setup (load from the device's own modem/persist partitions,
+# ship no blobs) is static rootfs config, so it lives as real files in userpatches/overlay:
+#   etc/tmpfiles.d/wcnss-firmware.conf            per-device prima NV/dict symlinks -> /persist
+#   etc/modprobe.d/wcnss-defer.conf               block udev autoload of qcom_wcnss_pil
+#   etc/systemd/system/wcnss-firmware.service     modprobe it after the partitions are mounted
+#   etc/systemd/system/multi-user.target.wants/   pre-created enable symlink for that service
+# The modem/persist mounts it depends on are appended below in the pre_umount fstab hook, and
+# firmware_class.path=/firmware/image is already on the kernel cmdline via SRC_CMDLINE.
+
 # Shorten the ext4 root commit interval. partitioning.sh generates the root fstab line as
 #   UUID=... / ext4 defaults,,commit=120,errors=remount-ro 0 1
 # (the ',,' is an upstream quirk: mountopts[ext4] already starts with a comma). partitioning
@@ -212,8 +225,8 @@ function pre_umount_final_image__snapmakerj1_fstab_commit() {
 #                points firmware_class.path at /firmware/image, so this is its mount.
 #   - persist -> /persist  : per-device WCNSS WLAN calibration; the tmpfiles.d drop-in
 #                symlinks the prima NV files here (see etc/tmpfiles.d/wcnss-firmware.conf).
-# auto fstype for modem (it is a vendor fs, not plain ext4); persist is ext4 mounted
-# noload (skip journal replay on a read-only mount).
+# modem is FAT-formatted on this device (mmcblk0p9, vfat); persist is ext4 mounted noload
+# (skip journal replay on a read-only mount).
 # AI generated
 function pre_umount_final_image__snapmakerj1_vendor_mounts() {
     local fstab="${MOUNT}/etc/fstab"
@@ -221,7 +234,7 @@ function pre_umount_final_image__snapmakerj1_vendor_mounts() {
 
     display_alert "${BOARD}" "Appending modem/persist vendor mounts to fstab" "info"
     cat >> "${fstab}" <<- 'EOF'
-		/dev/disk/by-partlabel/modem    /firmware  auto  ro,nofail,x-systemd.device-timeout=10s          0 0
+		/dev/disk/by-partlabel/modem    /firmware  vfat  ro,nofail,x-systemd.device-timeout=10s          0 0
 		/dev/disk/by-partlabel/persist  /persist   ext4  ro,noload,nofail,x-systemd.device-timeout=10s   0 0
 	EOF
     run_host_command_logged cat "${fstab}"
