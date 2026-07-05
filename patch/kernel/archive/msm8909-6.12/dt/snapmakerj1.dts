@@ -92,6 +92,23 @@
         /delete-node/ i2c@78ba000;
         /delete-node/ spi@78ba000;
         /delete-node/ remoteproc@4080000;
+
+        /*
+         * IMEM restart_reason (0x8600000 + 0x65c). On "reboot edl" the kernel
+         * writes the EDL magic here; the stock aboot ignores this word (it reads
+         * the PMIC PON reg), so it survives the chainload and patched lk2nd reads
+         * it. Magic must match lk2nd LK2ND_EDL_RESTART_REASON.
+         */
+        imem@8600000 {
+            compatible = "qcom,msm8909-imem", "syscon", "simple-mfd";
+            reg = <0x8600000 0x1000>;
+
+            reboot-mode {
+                compatible = "syscon-reboot-mode";
+                offset = <0x65c>;
+                mode-edl = <0x77665507>;
+            };
+        };
         };
     
     backlight: backlight {
@@ -311,5 +328,5 @@
 };
 
 &pm8909_pwm {
-    status = "okay"; 
+    status = "okay";
 };
