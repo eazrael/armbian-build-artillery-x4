@@ -17,7 +17,7 @@
     chosen {
         #address-cells = <1>;
 		#size-cells = <1>;
-        bootargs = "console=ttyMSM0,115200n8 loglevel=8 ignore_loglevel clk_ignore_unused log_buf_len=1M lk2nd.pass-simplefb=autorefresh aus_dts";
+        bootargs = "clk_ignore_unused log_buf_len=1M lk2nd.pass-simplefb=autorefresh aus_dts";
 		stdout-path = "serial0:115200n8";
 
         fb0: framebuffer@83200000 {
